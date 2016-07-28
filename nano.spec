@@ -1,11 +1,11 @@
 Name:		nano
-Version:	2.5.3
+Version:	2.6.2
 Release:	1
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
 URL:		http://www.nano-editor.org/
-Source0:	http://www.nano-editor.org/dist/v2.4/%{name}-%{version}.tar.gz
+Source0:	http://www.nano-editor.org/dist/v%(echo %{version} |cut -d. -f1-2)/%{name}-%{version}.tar.gz
 Patch0:          nano-2.3.3-warnings.patch
 # http://lists.gnu.org/archive/html/nano-devel/2010-08/msg00005.html
 Patch2:          0002-use-futimens-if-available-instead-of-utime.patch
@@ -55,7 +55,7 @@ EOF
 %find_lang %{name} --with-man --all-name
 
 %files -f %{name}.lang
-%doc AUTHORS  ChangeLog NEWS README THANKS TODO UPGRADE
+%doc AUTHORS  ChangeLog NEWS README THANKS TODO
 %doc doc/faq.html doc/nanorc.sample
 %{_bindir}/nano
 %{_bindir}/rnano

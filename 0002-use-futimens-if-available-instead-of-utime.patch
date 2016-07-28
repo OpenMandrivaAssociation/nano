@@ -1,20 +1,6 @@
-From 23510b930ea31f7de8005e2f0ff6cab7062b4e26 Mon Sep 17 00:00:00 2001
-From: Kamil Dudka <kdudka@redhat.com>
-Date: Thu, 19 Aug 2010 15:23:06 +0200
-Subject: [PATCH 3/3] use futimens() if available, instead of utime()
-
----
- config.h.in  |    3 +++
- configure    |    2 +-
- configure.ac |    2 +-
- src/files.c  |   48 ++++++++++++++++++++++++++++++++++++------------
- 4 files changed, 41 insertions(+), 14 deletions(-)
-
-diff --git a/config.h.in b/config.h.in
-index 52e13f1..cb17b29 100644
---- a/config.h.in
-+++ b/config.h.in
-@@ -69,6 +69,9 @@
+--- nano-2.6.2/config.h.in.0002~	2016-07-28 09:26:07.000000000 +0200
++++ nano-2.6.2/config.h.in	2016-07-28 16:35:36.786450058 +0200
+@@ -72,6 +72,9 @@
  /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
  #undef HAVE_DOPRNT
  
@@ -24,11 +10,9 @@ index 52e13f1..cb17b29 100644
  /* Define to 1 if you have the `getdelim' function. */
  #undef HAVE_GETDELIM
  
-diff --git a/configure b/configure
-index 02733c7..1805e53 100755
---- a/configure
-+++ b/configure
-@@ -7755,7 +7755,7 @@ fi
+--- nano-2.6.2/configure.0002~	2016-07-28 09:25:37.000000000 +0200
++++ nano-2.6.2/configure	2016-07-28 16:35:36.788450051 +0200
+@@ -7776,7 +7776,7 @@ fi
  
  
  
@@ -37,11 +21,9 @@ index 02733c7..1805e53 100755
  do :
    as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
  ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
-diff --git a/configure.ac b/configure.ac
-index 66f8ee3..f4975d3 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -428,7 +428,7 @@ int main(void)
+--- nano-2.6.2/configure.ac.0002~	2016-07-28 09:15:46.000000000 +0200
++++ nano-2.6.2/configure.ac	2016-07-28 16:35:36.788450051 +0200
+@@ -442,7 +442,7 @@ int main(void)
  
  dnl Checks for functions.
  
@@ -50,11 +32,9 @@ index 66f8ee3..f4975d3 100644
  
  if test "x$enable_utf8" != xno; then
      AC_CHECK_FUNCS(iswalnum iswblank iswpunct iswspace nl_langinfo mblen mbstowcs mbtowc wctomb wcwidth)
-diff --git a/src/files.c b/src/files.c
-index 99cc1b8..9a1bdcc 100644
---- a/src/files.c
-+++ b/src/files.c
-@@ -1693,6 +1693,29 @@ int copy_file(FILE *inn, FILE *out)
+--- nano-2.6.2/src/files.c.0002~	2016-07-27 21:45:10.000000000 +0200
++++ nano-2.6.2/src/files.c	2016-07-28 16:36:49.268208367 +0200
+@@ -1687,6 +1687,29 @@ int copy_file(FILE *inn, FILE *out)
      return retval;
  }
  
@@ -84,7 +64,7 @@ index 99cc1b8..9a1bdcc 100644
  /* Write a file out to disk.  If f_open isn't NULL, we assume that it is
   * a stream associated with the file, and we don't try to open it
   * ourselves.  If tmp is TRUE, we set the umask to disallow anyone else
-@@ -1934,18 +1957,9 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
+@@ -1908,17 +1931,9 @@ bool write_file(const char *name, FILE *
  	fprintf(stderr, "Backing up %s to %s\n", realname, backupname);
  #endif
  
@@ -92,9 +72,8 @@ index 99cc1b8..9a1bdcc 100644
 -	copy_status = copy_file(f, backup_file);
 -
 -	if (copy_status != 0) {
--	    statusbar(_("Error reading %s: %s"), realname,
+-	    statusline(ALERT, _("Error reading %s: %s"), realname,
 -			strerror(errno));
--	    beep();
 -	    goto cleanup_and_exit;
 -	}
 -
@@ -102,11 +81,11 @@ index 99cc1b8..9a1bdcc 100644
 -	if (utime(backupname, &filetime) == -1 && !ISSET(INSECURE_BACKUP)) {
 +	/* Set backup's file metadata. */
 +	if (utime_wrap(backup_fd, backupname, &filetime) == -1
-+		&& !ISSET(INSECURE_BACKUP)) {
++	               && !ISSET(INSECURE_BACKUP)) {
  	    if (prompt_failed_backupwrite(backupname))
  		goto skip_backup;
- 	    statusbar(_("Error writing backup file %s: %s"), backupname,
-@@ -1957,6 +1971,16 @@ bool write_file(const char *name, FILE *f_open, bool tmp, append_type
+ 	    statusline(HUSH, _("Error writing backup file %s: %s"),
+@@ -1930,6 +1945,17 @@ bool write_file(const char *name, FILE *
  	    goto cleanup_and_exit;
  	}
  
@@ -114,8 +93,9 @@ index 99cc1b8..9a1bdcc 100644
 +	copy_status = copy_file(f, backup_file);
 +
 +	if (copy_status != 0) {
-+	    statusbar(_("Error reading %s: %s"), realname,
-+			strerror(errno));
++           char msg[512];
++           snprintf(msg, 512, _("Error reading %s: %s"), realname, strerror(errno));
++	    statusbar(msg);
 +	    beep();
 +	    goto cleanup_and_exit;
 +	}
@@ -123,6 +103,3 @@ index 99cc1b8..9a1bdcc 100644
  	free(backupname);
      }
  
--- 
-1.7.4
-
