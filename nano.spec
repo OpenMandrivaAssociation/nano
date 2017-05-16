@@ -1,14 +1,11 @@
 Name:		nano
-Version:	2.7.0
+Version:	2.8.2
 Release:	1
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
 URL:		http://www.nano-editor.org/
-Source0:	http://www.nano-editor.org/dist/v%(echo %{version} |cut -d. -f1-2)/%{name}-%{version}.tar.gz
-Patch0:          nano-2.3.3-warnings.patch
-# http://lists.gnu.org/archive/html/nano-devel/2010-08/msg00005.html
-Patch2:          0002-use-futimens-if-available-instead-of-utime.patch
+Source0:	http://www.nano-editor.org/dist/v2.8/%{name}-%{version}.tar.gz
 BuildRequires:	ncurses-devel
 BuildRequires:	ncursesw-devel
 BuildRequires:	texinfo
@@ -35,7 +32,7 @@ touch -c aclocal.m4 config.h.in configure Makefile.in
 %makeinstall_std
 
 #config file
-install -Dpm644 doc/nanorc.sample %{buildroot}%{_sysconfdir}/nanorc
+install -Dpm644 doc/sample.nanorc %{buildroot}%{_sysconfdir}/nanorc
 
 #disable line wrapping by default
 sed -i -e 's/# set nowrap/set nowrap/' %{buildroot}%{_sysconfdir}/nanorc
@@ -56,7 +53,7 @@ EOF
 
 %files -f %{name}.lang
 %doc AUTHORS  ChangeLog NEWS README THANKS TODO
-%doc doc/faq.html doc/nanorc.sample
+%doc doc/faq.html doc/sample.nanorc
 %{_bindir}/nano
 %{_bindir}/rnano
 %{_datadir}/nano
