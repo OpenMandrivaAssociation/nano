@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   nano-2.9.0.tar.gz: 1af8e74e6d03b74e59d7f8da7fee49b9a5c8f758
+sources:
+  nano-2.9.6.tar.gz: 0007ed464480c3817a538c4b6229b5a776bbab8a
