@@ -1,5 +1,5 @@
 Name:		nano
-Version:	2.9.7
+Version:	3.0
 Release:	1
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
@@ -53,7 +53,7 @@ EOF
 
 %files -f %{name}.lang
 %doc AUTHORS  ChangeLog NEWS README THANKS TODO
-%doc doc/faq.html doc/sample.nanorc
+%doc doc/faq.html doc/sample.nanorc doc/nano* doc/r*
 %{_bindir}/nano
 %{_bindir}/rnano
 %{_datadir}/nano
