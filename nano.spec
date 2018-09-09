@@ -53,7 +53,7 @@ EOF
 
 %files -f %{name}.lang
 %doc AUTHORS  ChangeLog NEWS README THANKS TODO
-%doc doc/faq.html doc/sample.nanorc doc/nano*
+%doc doc/faq.html doc/sample.nanorc doc/nano* doc/r*
 %{_bindir}/nano
 %{_bindir}/rnano
 %{_datadir}/nano
