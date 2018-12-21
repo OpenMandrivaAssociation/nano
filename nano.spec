@@ -29,7 +29,7 @@ touch -c aclocal.m4 config.h.in configure Makefile.in
 %make
 
 %install
-%makeinstall_std
+%make_install
 
 #config file
 install -Dpm644 doc/sample.nanorc %{buildroot}%{_sysconfdir}/nanorc
