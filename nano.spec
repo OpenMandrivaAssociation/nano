@@ -1,6 +1,6 @@
 Name:		nano
 Version:	3.2
-Release:	1
+Release:	2
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
@@ -17,8 +17,7 @@ TIP (TIP Isn't Pico). It aims to emulate Pico as closely as
 possible while also offering a few enhancements.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 # do not run autotools, we have already reflected the configure.ac
@@ -26,7 +25,7 @@ possible while also offering a few enhancements.
 touch -c aclocal.m4 config.h.in configure Makefile.in
 
 %configure
-%make
+%make_build
 
 %install
 %make_install
