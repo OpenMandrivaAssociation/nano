@@ -1,5 +1,5 @@
 Name:		nano
-Version:	3.2
+Version:	4.0
 Release:	2
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
