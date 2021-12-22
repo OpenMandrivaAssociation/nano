@@ -1,6 +1,6 @@
 Name:		nano
 Version:	6.0
-Release:	2
+Release:	1
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
@@ -20,6 +20,10 @@ possible while also offering a few enhancements.
 %autosetup -p1
 
 %build
+# Workaround error: "'__malloc__' attribute takes no arguments" by forcing GCC right now.
+export CC=gcc
+export CXX=g++
+
 # do not run autotools, we have already reflected the configure.ac
 # changes in configure and config.h.in
 touch -c aclocal.m4 config.h.in configure Makefile.in
