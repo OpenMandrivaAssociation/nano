@@ -1,15 +1,17 @@
 Name:		nano
 Version:	6.4
-Release:	1
+Release:	2
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
 URL:		http://www.nano-editor.org/
 Source0:	http://www.nano-editor.org/dist/v%(echo %{version} |cut -d. -f1)/%{name}-%{version}.tar.xz
+Patch0:		nano-6.4-clang.patch
 BuildRequires:	ncurses-devel
 BuildRequires:	ncursesw-devel
 BuildRequires:	texinfo
 BuildRequires:	groff
+Provides:	texteditor
 
 %description
 nano (Nano's ANOther editor) is the editor formerly known as
@@ -20,10 +22,6 @@ possible while also offering a few enhancements.
 %autosetup -p1
 
 %build
-# Workaround error: "'__malloc__' attribute takes no arguments" by forcing GCC right now.
-export CC=gcc
-export CXX=g++
-
 # do not run autotools, we have already reflected the configure.ac
 # changes in configure and config.h.in
 touch -c aclocal.m4 config.h.in configure Makefile.in
