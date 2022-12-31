@@ -1,6 +1,6 @@
 Name:		nano
 Version:	7.1
-Release:	2
+Release:	3
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
@@ -47,7 +47,7 @@ done
 cat >> %{buildroot}%{_sysconfdir}/nanorc << EOF
 
 ## RPM .spec files
-include "%{_datadir}/nano/spec.nanorc"
+include "%{_datadir}/nano/extra/spec.nanorc"
 EOF
 
 %find_lang %{name} --with-man --all-name
