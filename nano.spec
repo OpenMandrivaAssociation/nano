@@ -1,11 +1,11 @@
 Name:		nano
-Version:	7.2
-Release:	2
+Version:	8.0
+Release:	1
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
 Group:		Editors
-URL:		http://www.nano-editor.org/
-Source0:	http://www.nano-editor.org/dist/v%(echo %{version} |cut -d. -f1)/%{name}-%{version}.tar.xz
+URL:		https://www.nano-editor.org/
+Source0:	https://www.nano-editor.org/dist/v%(echo %{version} |cut -d. -f1)/%{name}-%{version}.tar.xz
 Patch0:		nano-6.4-clang.patch
 BuildRequires:	ncurses-devel
 BuildRequires:	ncursesw-devel
