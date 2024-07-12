@@ -1,96 +1,24 @@
-diff -up nano-6.4/config.h.in.omv~ nano-6.4/config.h.in
---- nano-6.4/config.h.in.omv~	2022-08-05 23:39:28.139305858 +0200
-+++ nano-6.4/config.h.in	2022-08-05 23:39:33.189215665 +0200
-@@ -1905,7 +1905,7 @@
-    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+diff -up nano-8.1/config.h.in.omv~ nano-8.1/config.h.in
+--- nano-8.1/config.h.in.omv~	2024-07-12 21:23:02.673981833 +0200
++++ nano-8.1/config.h.in	2024-07-12 21:23:26.062250504 +0200
+@@ -2149,7 +2149,7 @@
     can be freed via 'free'; it can be used only after declaring 'free'.  */
  /* Applies to: functions.  Cannot be used on inline functions.  */
--#if _GL_GNUC_PREREQ (11, 0)
-+#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
- # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- #else
- # define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up nano-6.4/lib/cdefs.h.omv~ nano-6.4/lib/cdefs.h
---- nano-6.4/lib/cdefs.h.omv~	2022-08-05 23:38:42.118127787 +0200
-+++ nano-6.4/lib/cdefs.h	2022-08-05 23:39:01.687778282 +0200
-@@ -685,7 +685,7 @@ _Static_assert (0, "IEEE 128-bits long d
- #  define __attr_access_none(argno)
- #endif
- 
--#if __GNUC_PREREQ (11, 0)
-+#if __GNUC_PREREQ (11, 0) && !defined(__clang__)
- /* Designates dealloc as a function to call to deallocate objects
-    allocated by the declared function.  */
- # define __attr_dealloc(dealloc, argno) \
-diff -up nano-6.4/lib/dirent.in.h.omv~ nano-6.4/lib/dirent.in.h
---- nano-6.4/lib/dirent.in.h.omv~	2022-08-05 23:38:20.551512946 +0200
-+++ nano-6.4/lib/dirent.in.h	2022-08-05 23:38:27.434390025 +0200
-@@ -59,7 +59,7 @@ typedef struct gl_directory DIR;
-    that can be freed by passing them as the Ith argument to the
-    function F.  */
  #ifndef _GL_ATTRIBUTE_DEALLOC
--# if __GNUC__ >= 11
-+# if __GNUC__ >= 11 && !defined(__clang__)
+-# if _GL_GNUC_PREREQ (11, 0)
++# if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
  #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
  # else
  #  define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up nano-6.4/lib/stdio.in.h.omv~ nano-6.4/lib/stdio.in.h
---- nano-6.4/lib/stdio.in.h.omv~	2022-08-05 23:38:31.112324341 +0200
-+++ nano-6.4/lib/stdio.in.h	2022-08-05 23:38:37.295213921 +0200
-@@ -95,7 +95,7 @@
-    that can be freed by passing them as the Ith argument to the
-    function F.  */
- #ifndef _GL_ATTRIBUTE_DEALLOC
--# if __GNUC__ >= 11
-+# if __GNUC__ >= 11 && !defined(__clang__)
- #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- # else
- #  define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up nano-6.4/lib/stdlib.in.h.omv~ nano-6.4/lib/stdlib.in.h
---- nano-6.4/lib/stdlib.in.h.omv~	2022-08-05 23:38:10.502692405 +0200
-+++ nano-6.4/lib/stdlib.in.h	2022-08-05 23:38:17.100574576 +0200
-@@ -103,7 +103,7 @@ struct random_data
-    that can be freed by passing them as the Ith argument to the
-    function F.  */
- #ifndef _GL_ATTRIBUTE_DEALLOC
--# if __GNUC__ >= 11
-+# if __GNUC__ >= 11 && !defined(__clang__)
- #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- # else
- #  define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up nano-6.4/lib/string.in.h.omv~ nano-6.4/lib/string.in.h
---- nano-6.4/lib/string.in.h.omv~	2022-08-05 23:37:49.026075942 +0200
-+++ nano-6.4/lib/string.in.h	2022-08-05 23:38:07.429747282 +0200
-@@ -71,7 +71,7 @@
-    that can be freed by passing them as the Ith argument to the
-    function F.  */
- #ifndef _GL_ATTRIBUTE_DEALLOC
--# if __GNUC__ >= 11
-+# if __GNUC__ >= 11 && !defined(__clang__)
- #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- # else
- #  define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up nano-6.4/lib/wchar.in.h.omv~ nano-6.4/lib/wchar.in.h
---- nano-6.4/lib/wchar.in.h.omv~	2022-08-05 23:39:05.029718596 +0200
-+++ nano-6.4/lib/wchar.in.h	2022-08-05 23:39:11.099610189 +0200
-@@ -88,7 +88,7 @@
-    that can be freed by passing them as the Ith argument to the
-    function F.  */
- #ifndef _GL_ATTRIBUTE_DEALLOC
--# if __GNUC__ >= 11
-+# if __GNUC__ >= 11 && !defined(__clang__)
- #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- # else
- #  define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up nano-6.4/m4/gnulib-common.m4.omv~ nano-6.4/m4/gnulib-common.m4
---- nano-6.4/m4/gnulib-common.m4.omv~	2022-08-05 23:39:19.550459256 +0200
-+++ nano-6.4/m4/gnulib-common.m4	2022-08-05 23:39:25.557351972 +0200
-@@ -182,7 +182,7 @@ AC_DEFUN([gl_COMMON_BODY], [
-    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+diff -up nano-8.1/m4/gnulib-common.m4.omv~ nano-8.1/m4/gnulib-common.m4
+--- nano-8.1/m4/gnulib-common.m4.omv~	2024-07-12 21:25:29.235664279 +0200
++++ nano-8.1/m4/gnulib-common.m4	2024-07-12 21:25:37.639760677 +0200
+@@ -223,7 +223,7 @@ AC_DEFUN([gl_COMMON_BODY], [
     can be freed via 'free'; it can be used only after declaring 'free'.  */
  /* Applies to: functions.  Cannot be used on inline functions.  */
--#if _GL_GNUC_PREREQ (11, 0)
-+#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
- # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- #else
- # define _GL_ATTRIBUTE_DEALLOC(f, i)
+ #ifndef _GL_ATTRIBUTE_DEALLOC
+-# if _GL_GNUC_PREREQ (11, 0)
++# if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ # else
+ #  define _GL_ATTRIBUTE_DEALLOC(f, i)
