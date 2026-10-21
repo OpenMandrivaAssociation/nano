@@ -1,5 +1,5 @@
 Name:		nano
-Version:	9.2
+Version:	9.3
 Release:	1
 Summary:	Tiny console text editor that aims to emulate Pico
 License:	GPLv3
@@ -9,8 +9,6 @@ Source0:	https://www.nano-editor.org/dist/v%(echo %{version} |cut -d. -f1)/%{nam
 Patch0:		nano-6.4-clang.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
-BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	ncurses-devel
 BuildRequires:	ncursesw-devel
